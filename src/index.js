@@ -1,6 +1,7 @@
 const $app = document.getElementById('app');
 const $observe = document.getElementById('observe');
-const API = 'https://rickandmortyapi.com/api/character/';
+const API = 'https://rickandmortyapi.com/api/character/?page=24';
+ //'https://rickandmortyapi.com/api/character/';
 let localStorage = window.localStorage;
 localStorage.setItem('next-request', API);
 
@@ -31,9 +32,14 @@ const loadData = async () => {
     }
     catch (error) {
       console.log(error.message)
-  }
-} else {
-  console.log('No hay data');
+    }
+  } else {
+    intersectionObserver.disconnect();
+    let newItem = document.createElement('section');
+      newItem.classList.add('Items');
+      newItem.innerHTML = output;
+      $app.appendChild(newItem);
+    console.log('No hay más personajes');
   }
 }
 
@@ -47,6 +53,6 @@ const intersectionObserver = new IntersectionObserver(entries => {
 
 intersectionObserver.observe($observe);
 
-$(window).unload(function(){
+window.addEventListener('unload', function(event) {
   localStorage.clear();
 });
