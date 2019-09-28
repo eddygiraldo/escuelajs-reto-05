@@ -35,7 +35,9 @@ const loadData = async () => {
     }
   } else {
     intersectionObserver.disconnect();
-    console.log('No hay más personajes');
+    let paragraph = document.createElement('h1');
+    paragraph.textContent = 'No hay más personajes';
+    $app.appendChild(paragraph);
   }
 }
 
