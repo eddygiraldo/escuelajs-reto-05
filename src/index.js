@@ -35,10 +35,6 @@ const loadData = async () => {
     }
   } else {
     intersectionObserver.disconnect();
-    let newItem = document.createElement('section');
-      newItem.classList.add('Items');
-      newItem.innerHTML = output;
-      $app.appendChild(newItem);
     console.log('No hay más personajes');
   }
 }
