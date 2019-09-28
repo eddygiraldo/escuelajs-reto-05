@@ -1,6 +1,6 @@
 const $app = document.getElementById('app');
 const $observe = document.getElementById('observe');
-const API = 'https://rickandmortyapi.com/api/character/?page=24';
+const API = 'https://rickandmortyapi.com/api/character/';
  //'https://rickandmortyapi.com/api/character/';
 let localStorage = window.localStorage;
 localStorage.setItem('next-request', API);
