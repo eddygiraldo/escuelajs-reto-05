@@ -1,30 +1,40 @@
 const $app = document.getElementById('app');
 const $observe = document.getElementById('observe');
 const API = 'https://rickandmortyapi.com/api/character/';
+let localStorage = window.localStorage;
+localStorage.setItem('next-request', API);
 
 const getData = api => {
-  fetch(api)
-    .then(response => response.json())
-    .then(response => {
+  return fetch(api)
+    .then(response => response.json());
+}
+
+const loadData = async () => {
+  const API_NEXT = localStorage.getItem('next-request');
+  if (API_NEXT) {
+    try {
+      const response = await getData(API_NEXT);
       const characters = response.results;
+      localStorage.setItem('next-request', response.info.next)
       let output = characters.map(character => {
         return `
-      <article class="Card">
-        <img src="${character.image}" />
-        <h2>${character.name}<span>${character.species}</span></h2>
-      </article>
-    `
+        <article class="Card">
+          <img src="${character.image}" />
+          <h2>${character.name}<span>${character.species}</span></h2>
+        </article>
+      `
       }).join('');
       let newItem = document.createElement('section');
       newItem.classList.add('Items');
       newItem.innerHTML = output;
       $app.appendChild(newItem);
-    })
-    .catch(error => console.log(error));
-}
-
-const loadData = () => {
-  getData(API);
+    }
+    catch (error) {
+      console.log(error.message)
+  }
+} else {
+  console.log('No hay data');
+  }
 }
 
 const intersectionObserver = new IntersectionObserver(entries => {
@@ -36,3 +46,7 @@ const intersectionObserver = new IntersectionObserver(entries => {
 });
 
 intersectionObserver.observe($observe);
+
+$(window).unload(function(){
+  localStorage.clear();
+});
